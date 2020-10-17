@@ -19,13 +19,13 @@ class UserDetails extends Component {
   componentDidMount() {
     const param = !!localStorage.getItem("oup")
       ? JSON.parse(localStorage.getItem("otherUserProfile")).id
-      : JSON.parse(localStorage.getItem("userId"));
+      : JSON.parse(localStorage.getItem("userIdAndName")).id;
 
     this.retrieveEmployee(param);
   }
 
   retrieveEmployee(param) {
-    EmployeeAPI.get(10002)
+    EmployeeAPI.get(param)
       .then((response) => {
         this.setState({
           employee: response.data,

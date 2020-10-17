@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardHeader } from "shards-react";
+import { withRouter } from "react-router-dom";
 
 import EmployeeAPI from "../../MicroserviceAPI/EmployeeAPI";
 
@@ -19,7 +20,7 @@ class ReportTo extends Component {
   componentDidMount() {
     const param = !!localStorage.getItem("oup")
       ? JSON.parse(localStorage.getItem("otherUserProfile")).id
-      : JSON.parse(localStorage.getItem("userId"));
+      : JSON.parse(localStorage.getItem("userIdAndName")).id;
 
     this.retrieveSeniors(param);
   }
@@ -37,14 +38,22 @@ class ReportTo extends Component {
   }
 
   otherUserProfile(list) {
-    localStorage.setItem("otherUserProfile", JSON.stringify(list));
-    localStorage.setItem("oup", true);
-    //console.log(localStorage);
+    // const { history } = this.props;
+
+    if (list.id == JSON.parse(localStorage.getItem("userIdAndName")).id) {
+      // history.push("/profile");
+      window.location.href = "/profile";
+    } else {
+      localStorage.setItem("otherUserProfile", JSON.stringify(list));
+      localStorage.setItem("oup", true);
+      // history.push("/employee/profile");
+      window.location.href = "/employee/profile";
+    }
   }
 
   render() {
     const { seniorsList } = this.state;
-    // const temp = require("./ReportTo.json");
+    //const temp = require("./ReportTo.json");
     return (
       <div className="col-md-12">
         <Card small className="mb-4">
@@ -68,10 +77,7 @@ class ReportTo extends Component {
                       />
                     </div>
                     <div onClick={() => this.otherUserProfile(item)}>
-                      <a
-                        className="text-secondary  stretched-link"
-                        href="/employee/profile"
-                      >
+                      <a className="text-secondary  stretched-link" href="#">
                         <h4 className="mb-0">{item.name}</h4>
                       </a>
 
@@ -90,4 +96,4 @@ class ReportTo extends Component {
   }
 }
 
-export default ReportTo;
+export default withRouter(ReportTo);

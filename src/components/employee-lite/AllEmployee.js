@@ -1,36 +1,36 @@
 import React, { Component } from "react";
-import ProjectAPI from "../../MicroserviceAPI/ProjectAPI";
+import EmployeeAPI from "../../MicroserviceAPI/EmployeeAPI";
 import { Card, CardFooter, CardHeader } from "shards-react";
 
-class OngoingProjectMain extends Component {
+class AllEmployee extends Component {
   constructor(props) {
     console.log(props);
     super(props);
 
-    this.retrieveProjects = this.retrieveProjects.bind(this);
-    this.setActiveProject = this.setActiveProject.bind(this);
+    this.retrieveEmployees = this.retrieveEmployees.bind(this);
     this.refreshList = this.refreshList.bind(this);
+    this.setActiveEmployee = this.setActiveEmployee.bind(this);
+    this.deleteEmployee = this.deleteEmployee.bind(this);
 
     this.state = {
-      Projects: [],
-      currentProject: null,
+      Employees: [],
+      currentEmployee: null,
       currentIndex: -1,
+      searchName: "",
     };
   }
 
   componentDidMount() {
-    this.retrieveProjects();
+    this.retrieveEmployees();
   }
 
-  retrieveProjects() {
-    ProjectAPI.getOngoingProjectMain(
-      JSON.parse(localStorage.getItem("userIdAndName")).id
-    )
+  retrieveEmployees() {
+    EmployeeAPI.getAll()
       .then((response) => {
         this.setState({
-          Projects: response.data,
+          Employees: response.data,
         });
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -38,49 +38,60 @@ class OngoingProjectMain extends Component {
   }
 
   refreshList() {
-    this.retrieveProjects();
+    this.retrieveEmployees();
     this.setState({
-      currentProject: null,
+      currentEmployee: null,
       currentIndex: -1,
     });
   }
 
-  setActiveProject(Project, index) {
+  setActiveEmployee(Employee, index) {
     this.setState({
-      currentProject: Project,
+      currentEmployee: Employee,
       currentIndex: index,
     });
   }
 
+  deleteEmployee() {
+    EmployeeAPI.deleteEmployee(this.state.currentEmployee.id)
+      .then((response) => {
+        console.log(response.data);
+        this.props.history.push("/resource");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
   render() {
-    const { Projects, currentProject, currentIndex } = this.state;
+    const { Employees, currentEmployee, currentIndex } = this.state;
 
     return (
       <div className="col-md-12">
-        <h4>Your Ongoing Projects</h4>
+        <h4>All Employees</h4>
         <div className="list row">
           <div className="col-md-6">
             <ul className="list-group">
-              {Projects &&
-                Projects.map((Project, index) => (
+              {Employees &&
+                Employees.map((Employee, index) => (
                   <li
                     className={
                       "list-group-item " +
                       (index === currentIndex ? "active" : "")
                     }
-                    onClick={() => this.setActiveProject(Project, index)}
+                    onClick={() => this.setActiveEmployee(Employee, index)}
                     key={index}
-                    id="project-list"
+                    id="resource-list"
                   >
-                    {Project.projectName}
+                    {Employee.name}
                   </li>
                 ))}
             </ul>
           </div>
 
           <div className="col-md-6">
-            <Card className=" text-center border border-primary">
-              {currentProject ? (
+            <Card className="text-center border border-primary">
+              {currentEmployee ? (
                 <div>
                   <CardHeader className="border-bottom">
                     <h5 className="m-0">
@@ -89,49 +100,42 @@ class OngoingProjectMain extends Component {
                   </CardHeader>
                   <div>
                     <label>
-                      <strong>Project Id:</strong>
+                      <strong>Resource Id:</strong>
                     </label>{" "}
-                    {currentProject.projectId}
+                    {currentEmployee.id}
                   </div>
                   <div>
                     <label>
-                      <strong>Project Name:</strong>
+                      <strong>Resource Type:</strong>
                     </label>{" "}
-                    {currentProject.projectName}
+                    {currentEmployee.type}
                   </div>
                   <div>
                     <label>
-                      <strong>Description:</strong>
+                      <strong>Name:</strong>
                     </label>{" "}
-                    {currentProject.description}
+                    {currentEmployee.name}
                   </div>
                   <div>
                     <label>
-                      <strong>Project Lead Id:</strong>
+                      <strong>Total Quantity:</strong>
                     </label>{" "}
-                    {currentProject.projectLeadId}
+                    {currentEmployee.totalQuantity}
                   </div>
                   <div>
                     <label>
-                      <strong>Start Date:</strong>
+                      <strong>Remaining Quantity:</strong>
                     </label>{" "}
-                    {currentProject.startDate}
-                  </div>
-                  <div>
-                    <label>
-                      <strong>End Date:</strong>
-                    </label>{" "}
-                    {currentProject.endDate}
-                  </div>
-
-                  <div>
-                    <label>
-                      <strong>Working Hours:</strong>
-                    </label>{" "}
-                    {currentProject.hours}
+                    {currentEmployee.remainingQuantity}
                   </div>
 
                   <CardFooter className="border-top">
+                    <button
+                      className="btn btn-danger mr-3"
+                      onClick={this.deleteEmployee}
+                    >
+                      Delete
+                    </button>
                     <a onClick={this.refreshList}>
                       <u>Hide</u>
                     </a>
@@ -148,4 +152,4 @@ class OngoingProjectMain extends Component {
   }
 }
 
-export default OngoingProjectMain;
+export default AllEmployee;

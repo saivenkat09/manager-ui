@@ -26,8 +26,13 @@ class UserActions extends React.Component {
     const { history } = this.props;
 
     localStorage.removeItem("loggedIn");
-    localStorage.removeItem("userId");
-    // localStorage.removeItem("otherUserProfile")
+    localStorage.removeItem("userIdAndName");
+    if (localStorage.getItem("otherUserProfile")) {
+      localStorage.removeItem("otherUserProfile");
+    }
+    if (localStorage.getItem("oup")) {
+      localStorage.removeItem("oup");
+    }
     history.push("/login");
     console.log("you have logged out");
   };

@@ -11,6 +11,7 @@ import AddProject from "../components/project-lite/AddProject";
 import OngoingProjectMain from "../components/project-lite/OngoingProjectMain";
 import UpcomingProjectMain from "../components/project-lite/UpcomingProjectMain";
 import JuniorOngoingProject from "../components/project-lite/JuniorOngoingProject";
+import JuniorUpcomingProject from "../components/project-lite/JuniorUpcomingProject";
 
 const Project = () => (
   <Container fluid className="main-content-container px-4 pb-4">
@@ -28,6 +29,9 @@ const Project = () => (
     </Row> */}
     <Row style={{ padding: "5%" }}>
       <JuniorOngoingProject />
+    </Row>
+    <Row style={{ padding: "5%" }}>
+      <JuniorUpcomingProject />
     </Row>
     <Row style={{ padding: "5%" }}>
       <AssignProject />

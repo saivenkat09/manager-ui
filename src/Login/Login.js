@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-//import ProjectAPI from "../../MicroserviceAPI/ProjectAPI";
+import EmployeeAPI from "../MicroserviceAPI/EmployeeAPI";
 
 import "./Login.css";
-import EmployeeAPI from "../MicroserviceAPI/EmployeeAPI";
 
 const emailRegex = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -50,37 +49,39 @@ class Login extends Component {
   //       console.log(e);
   //     });
   // }
-  getAuthService(email,password) {
-      var data = { emailId: email , password: password };
-      console.log(data);
-      axios
-        .post(
-          "http://a25d7841408b245f481a7ddb568dd09f-1591248461.us-east-1.elb.amazonaws.com/auth-service/login",
-          data
-        )
-        .then((response) => {
-          console.log(response.data)
-          localStorage.setItem("userId", response.data.id);
-          localStorage.setItem("userIdAndName",JSON.stringify(response.data));
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
+
+  getAuthService() {
+    var data = { emailId: "ananya@ea.com", password: "password2" };
+
+    axios
+      .post(
+        "http://a25d7841408b245f481a7ddb568dd09f-1591248461.us-east-1.elb.amazonaws.com/auth-service/login",
+        data
+      )
+      .then((response) => {
+        localStorage.setItem("userIdAndName", JSON.stringify(response.data));
+
+        console.log(localStorage);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { email , password} = this.state;
+    const { email } = this.state;
     const { history } = this.props;
 
     this.setState({ error: false });
 
-    // const data = { id: "10004", name: "IPL" };
+    // const data = { id: "10004", name: "IPL", role: "EMPLOYEE" };
     // localStorage.setItem("userIdAndName", JSON.stringify(data));
 
+    this.getAuthService();
+
     // this.storeUserIdAndName(email);
-    this.getAuthService(email,password);
     localStorage.setItem("loggedIn", true);
     history.push("/home");
 

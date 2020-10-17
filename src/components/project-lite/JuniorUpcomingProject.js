@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ProjectAPI from "../../MicroserviceAPI/ProjectAPI";
 import { Card, CardFooter, CardHeader } from "shards-react";
 
-class JuniorOngoingProject extends Component {
+class JuniorUpcomingProject extends Component {
   constructor(props) {
     console.log(props);
     super(props);
@@ -26,13 +26,13 @@ class JuniorOngoingProject extends Component {
     });
   }
 
-  // componentDidMount() {
-  //   this.retrieveProjects();
-  // }
+  //   componentDidMount() {
+  //     this.retrieveProjects();
+  //   }
 
   getDetails() {
     console.log(this.state.employeeId);
-    ProjectAPI.getJuniorOngoingProject(
+    ProjectAPI.getJuniorUpcomingProject(
       JSON.parse(localStorage.getItem("userIdAndName")).id,
       this.state.employeeId
     )
@@ -57,11 +57,11 @@ class JuniorOngoingProject extends Component {
   }
 
   render() {
-    const { Projects, currentProject, currentIndex } = this.state;
+    const { Projects, currentProject } = this.state;
 
     return (
       <div className="col-md-12">
-        <h4>Your Employee's Ongoing Projects</h4>
+        <h4>Your Employee's Upcoming Projects</h4>
         <div className="list row">
           <div className="col-md-6">
             <div className="form-group">
@@ -144,7 +144,7 @@ class JuniorOngoingProject extends Component {
                       <label>
                         <strong>Working Hours:</strong>
                       </label>{" "}
-                      {currentProject.hours}
+                      {Project.hours}
                     </div>
                     <CardFooter className="border-top">
                       <a onClick={this.refreshList}>
@@ -161,4 +161,4 @@ class JuniorOngoingProject extends Component {
   }
 }
 
-export default JuniorOngoingProject;
+export default JuniorUpcomingProject;

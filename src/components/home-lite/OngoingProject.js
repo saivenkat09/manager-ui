@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Card, CardHeader, Col, Form, FormInput } from "shards-react";
-import EmployeeAPI from "../../MicroserviceAPI/EmployeeAPI";
+
+import ProjectAPI from "../../MicroserviceAPI/ProjectAPI";
 
 class OngoingProject extends Component {
   constructor(props) {
@@ -8,22 +9,20 @@ class OngoingProject extends Component {
     super(props);
 
     this.retrieveProject = this.retrieveProject.bind(this);
+
     this.state = {
       projectList: [],
     };
   }
 
-
   componentDidMount() {
-    const param = !!localStorage.getItem("oup")
-    ? JSON.parse(localStorage.getItem("otherUserProfile")).id
-        : JSON.parse(localStorage.getItem("userId"));
-
-    this.retrieveProject(param);
+    this.retrieveProject();
   }
 
-  retrieveProject(param) {
-    EmployeeAPI.getStartedProjects(param)
+  retrieveProject() {
+    ProjectAPI.getOngoingProject(
+      JSON.parse(localStorage.getItem("userIdAndName")).id
+    )
       .then((response) => {
         this.setState({
           projectList: response.data,
@@ -44,9 +43,9 @@ class OngoingProject extends Component {
           <CardHeader className="border-bottom">
             <h5 className="m-0">Ongoing Projects</h5>
           </CardHeader>
-          {projectList.map((item) => {
+          {projectList.map((item, idx) => {
             return (
-              <Form style={{ padding: "0%" }}>
+              <Form key={idx} style={{ padding: "0%" }}>
                 <Col md="6" className="form-group">
                   <label htmlFor="projectName">Project Name</label>
                   <FormInput

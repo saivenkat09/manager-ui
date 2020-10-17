@@ -23,15 +23,20 @@ const Profile = () => (
     <Row>
       <UserAccountDetails />
     </Row>
+
     <Row>
       <UserEducationDetails />
     </Row>
     <Row>
       <UserWorkEx />
     </Row>
+    {/* {JSON.parse(localStorage.getItem("userIdAndName")).role !== "ADMIN" ? ( */}
     <Row>
       <ReportTo />
     </Row>
+    {/* ) : (
+      <Row></Row>
+    )} */}
   </Container>
 );
 

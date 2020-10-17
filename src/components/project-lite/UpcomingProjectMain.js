@@ -12,7 +12,7 @@ class UpcomingProjectMain extends Component {
     this.refreshList = this.refreshList.bind(this);
 
     this.state = {
-      projects: [],
+      Projects: [],
       currentProject: null,
       currentIndex: -1,
     };
@@ -24,11 +24,11 @@ class UpcomingProjectMain extends Component {
 
   retrieveProjects() {
     ProjectAPI.getUpcomingProjectMain(
-      JSON.parse(localStorage.getItem("userId"))
+      JSON.parse(localStorage.getItem("userIdAndName")).id
     )
       .then((response) => {
         this.setState({
-          projects: response.data,
+          Projects: response.data,
         });
         console.log(response.data);
       })
@@ -45,34 +45,34 @@ class UpcomingProjectMain extends Component {
     });
   }
 
-  setActiveProject(project, index) {
+  setActiveProject(Project, index) {
     this.setState({
-      currentProject: project,
+      currentProject: Project,
       currentIndex: index,
     });
   }
 
   render() {
-    const { projects, currentProject, currentIndex } = this.state;
+    const { Projects, currentProject, currentIndex } = this.state;
 
     return (
       <div className="col-md-12">
-        <h4>Your Upcoming Projects</h4>
+        <h4>Your Ongoing Projects</h4>
         <div className="list row">
           <div className="col-md-6">
             <ul className="list-group">
-              {projects &&
-                projects.map((project, index) => (
+              {Projects &&
+                Projects.map((Project, index) => (
                   <li
                     className={
                       "list-group-item " +
                       (index === currentIndex ? "active" : "")
                     }
-                    onClick={() => this.setActiveProject(project, index)}
+                    onClick={() => this.setActiveProject(Project, index)}
                     key={index}
                     id="project-list"
                   >
-                    {project.projectName}
+                    {Project.projectName}
                   </li>
                 ))}
             </ul>

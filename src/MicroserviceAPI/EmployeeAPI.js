@@ -1,15 +1,7 @@
 import http from "../Http/common-http";
-import axios from "axios";
 
 class EmployeeAPI {
-
-
-
   getAll() {
-    const customHeaders = {
-      'Authorization':  'Bearer eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiRU1QTE9ZRUUiLCJzdWIiOiJhbmFueWFAZWEuY29tIiwiTGV2ZWwiOjQsIklkIjoxMDAwMiwiZXhwIjoxNjAyODMyNjMyLCJpYXQiOjE2MDI4MjkwMzIsIk5hbWUiOiJBbmFueWEifQ.bo6zPqWfEkfR0p_i9VUisgXiE24qxF8uZ59qVfclGVk',
-      'content-type': 'application/json',
-    };
     return http.get("/employee-service/employees");
   }
 
@@ -25,7 +17,7 @@ class EmployeeAPI {
     return http.put("/employee-service/employee/" + id, data);
   }
 
-  delete(id) {
+  deleteEmployee(id) {
     return http.delete("/admin-service/admin/employee/" + id);
   }
 
@@ -83,35 +75,42 @@ class EmployeeAPI {
   updateAssignResourceToEmployee(data) {
     return http.put("/employee-service/employee/update-resource", data);
   }
-
-    getStartedProjects(id) {
-    return http.get("/employee-service/employee/"+id+"/working");
+  getStartedProjects(id) {
+    return http.get("/employee-service/employee/" + id + "/working");
   }
   // get employee past project
   getPastProjects(id) {
-    return http.get("employee-service/employee/" + id + "/pastprojects");
+    return http.get("/employee-service/employee/" + id + "/pastprojects");
   }
 
   // get unallocated hours
-  getUnallocatedHours(id,days) {
-    return http.get("employee-service/employee/" + id + "/junioravailablehours")
+  getUnallocatedHours(id, days) {
+    return http.get(
+      "/employee-service/employee/" + id + "/junioravailablehours"
+    );
   }
 
   // update employee skills
   updateEmployeeSkills(id, data) {
-    return http.put(`/employee/${id}/skills`, data);
+    return http.put(`/employee-service/employee/${id}/skills`, data);
   }
 
-  // getStartedProjects(id) {
-  //   return http.get('/employee-service/employee/'+id+'/working');
-  // }
-  // // get employee past project
-  // getPastProjects(id) {
-  //   return http.get('/employee-service/employee/'+id+'/pastprojects');
-  // }
+  // get acces to update skills
+  getAccess(id1, id2) {
+    return http.get(`/employee-service/employee/checkvalid/${id1}/${id2}`);
+  }
 
-  getUpComingProject(id) {
-    return http.get('/employee-service/employee/'+id+'/upcoming');
+  //update education details
+  updateEducationDetails(id, data) {
+    return http.post(
+      `/employee-service/employee/${id}/profile/education`,
+      data
+    );
+  }
+
+  // update work ex
+  updateWorkEx(id, data) {
+    return http.post(`/employee-service/employee/${id}/profile/workex`, data);
   }
 }
 

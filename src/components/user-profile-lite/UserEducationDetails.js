@@ -17,18 +17,90 @@ class UserEducationDetails extends Component {
     super(props);
 
     this.retrieveEmployee = this.retrieveEmployee.bind(this);
+    this.updateClicked = this.updateClicked.bind(this);
+    this.updateDetails = this.updateDetails.bind(this);
+    this.onChangeCollege = this.onChangeCollege.bind(this);
+    this.onChangeDegree = this.onChangeDegree.bind(this);
+    this.cancelUpdate = this.cancelUpdate.bind(this);
 
     this.state = {
       educationList: [],
+
+      otherUser: false,
+      degree: "",
+      college: "",
     };
+  }
+
+  onChangeDegree(e) {
+    this.setState({
+      degree: e.target.value,
+    });
+  }
+
+  onChangeCollege(e) {
+    this.setState({
+      college: e.target.value,
+    });
   }
 
   componentDidMount() {
     const param = !!localStorage.getItem("oup")
       ? JSON.parse(localStorage.getItem("otherUserProfile")).id
-      : JSON.parse(localStorage.getItem("userId"));
+      : JSON.parse(localStorage.getItem("userIdAndName")).id;
 
+    if (!!localStorage.getItem("oup")) {
+      this.setState({
+        otherUser: true,
+      });
+    }
     this.retrieveEmployee(param);
+  }
+
+  componentDidUpdate() {
+    this.retrieveEmployee(JSON.parse(localStorage.getItem("userIdAndName")).id);
+  }
+
+  updateClicked() {
+    this.setState({
+      updateClicked: true,
+    });
+  }
+
+  cancelUpdate() {
+    this.setState({
+      updateClicked: false,
+    });
+  }
+
+  updateDetails() {
+    const data = {
+      degree: this.state.degree,
+      college: this.state.college,
+    };
+
+    console.log(data);
+
+    EmployeeAPI.updateEducationDetails(
+      JSON.parse(localStorage.getItem("userIdAndName")).id,
+      data
+    )
+      .then((response) => {
+        this.setState({
+          Resources: response.data,
+        });
+      })
+      .catch((e) => {
+        if (e.response) {
+          console.log(e.response);
+        }
+      });
+
+    this.setState({
+      updateClicked: false,
+      degree: "",
+      college: "",
+    });
   }
 
   retrieveEmployee(param) {
@@ -44,7 +116,7 @@ class UserEducationDetails extends Component {
   }
 
   render() {
-    const { educationList } = this.state;
+    const { educationList, otherUser, updateClicked } = this.state;
 
     return (
       <div className="col-md-12">
@@ -81,12 +153,60 @@ class UserEducationDetails extends Component {
               </Form>
             );
           })}
+          {updateClicked ? (
+            <Form style={{ padding: "0%" }}>
+              <Col md="6" className="form-group">
+                <label htmlFor="degree">Degree</label>
+                <FormInput
+                  id="degree"
+                  placeholder="Degree"
+                  value={this.state.degree}
+                  onChange={this.onChangeDegree}
+                />
+              </Col>
 
-          <CardFooter>
-            <Button type="button" className="btn btn-info float-right">
-              Update
-            </Button>
-          </CardFooter>
+              <Col md="6" className="form-group">
+                <label htmlFor="university">University</label>
+                <FormInput
+                  id="university"
+                  placeholder="University"
+                  value={this.state.college}
+                  onChange={this.onChangeCollege}
+                />
+              </Col>
+            </Form>
+          ) : (
+            <div></div>
+          )}
+          {!otherUser ? (
+            <CardFooter>
+              {updateClicked ? (
+                <div className="float-right">
+                  <button
+                    onClick={this.updateDetails}
+                    className="btn btn-outline-primary mr-3"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={this.cancelUpdate}
+                    className="btn btn-outline-danger"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={this.updateClicked}
+                  className="btn btn-outline-info float-right"
+                >
+                  Update
+                </button>
+              )}
+            </CardFooter>
+          ) : (
+            <div></div>
+          )}
         </Card>
       </div>
     );

@@ -17,13 +17,13 @@ class UnallocatedHours extends Component {
 
   componentDidMount() {
     this.retrieveUnallocatedHours();
-
   }
 
   retrieveUnallocatedHours() {
     EmployeeAPI.getUnallocatedHours(
-      JSON.parse(localStorage.getItem("userId")),5
-    ).then((response) => {
+      JSON.parse(localStorage.getItem("userIdAndName")).id
+    )
+      .then((response) => {
         this.setState({
           juniorsHoursList: response.data,
         });

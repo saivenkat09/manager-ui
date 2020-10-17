@@ -24,7 +24,7 @@ class PastProject extends Component {
 
   retrieveProjects() {
     EmployeeAPI.getPastProjects(
-      JSON.parse(localStorage.getItem("userId"))
+      JSON.parse(localStorage.getItem("userIdAndName")).id
     )
       .then((response) => {
         this.setState({

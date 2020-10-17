@@ -18,6 +18,7 @@ class AddResource extends Component {
       name: "",
       type: "",
       totalQuantity: "",
+      remainingQuantity: "",
       submitted: false,
     };
   }
@@ -58,6 +59,7 @@ class AddResource extends Component {
       id: this.state.id,
       type: this.state.type,
       totalQuantity: this.state.totalQuantity,
+      remainingQuantity: this.state.remainingQuantity,
     };
 
     ResourceAPI.create(data)
@@ -67,6 +69,7 @@ class AddResource extends Component {
           id: response.data.id,
           type: response.data.type,
           totalQuantity: response.data.totalQuantity,
+          remainingQuantity: response.data.remainingQuantity,
 
           submitted: true,
         });
@@ -83,6 +86,7 @@ class AddResource extends Component {
       name: "",
       type: "",
       totalQuantity: "",
+      remainingQuantity: "",
       submitted: false,
     });
   }
@@ -161,7 +165,20 @@ class AddResource extends Component {
                 />
               </div>
 
-
+              <div className="form-group">
+                <label htmlFor="remainingQuantity">
+                  <strong>Remaining Quantity</strong>
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="remainingQuantity"
+                  required
+                  value={this.state.remainingQuantity}
+                  onChange={this.onChangeRemainingQuantity}
+                  name="remainingQuantity"
+                />
+              </div>
 
               <button onClick={this.saveResource} className="btn btn-success">
                 Submit

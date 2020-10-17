@@ -16,15 +16,13 @@ class UpcomingProject extends Component {
   }
 
   componentDidMount() {
-    const param = !!localStorage.getItem("oup")
-      ? JSON.parse(localStorage.getItem("otherUserProfile")).id
-      : JSON.parse(localStorage.getItem("userIdAndName")).id;
-
-    this.retrieveProject(param);
+    this.retrieveProject();
   }
 
-  retrieveProject(param) {
-    ProjectAPI.getUpComingProject(param)
+  retrieveProject() {
+    ProjectAPI.getUpComingProject(
+      JSON.parse(localStorage.getItem("userIdAndName")).id
+    )
       .then((response) => {
         this.setState({
           projectList: response.data,
@@ -45,9 +43,9 @@ class UpcomingProject extends Component {
           <CardHeader className="border-bottom">
             <h5 className="m-0">Upcoming Projects</h5>
           </CardHeader>
-          {projectList.map((item) => {
+          {projectList.map((item, idx) => {
             return (
-              <Form style={{ padding: "0%" }}>
+              <Form key={idx} style={{ padding: "0%" }}>
                 <Col md="6" className="form-group">
                   <label htmlFor="projectName">Project Name</label>
                   <FormInput

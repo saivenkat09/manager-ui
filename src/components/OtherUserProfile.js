@@ -21,6 +21,12 @@ class OtherUserProfile extends Component {
     console.log(localStorage);
     this.props.history.goBack();
   }
+
+  componentWillUnmount() {
+    localStorage.removeItem("otherUserProfile");
+    localStorage.removeItem("oup");
+  }
+
   render() {
     return (
       <Container fluid className="main-content-container px-4">

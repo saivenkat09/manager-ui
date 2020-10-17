@@ -45,6 +45,11 @@ class ProjectAPI {
   getJuniorOngoingProject(id1, id2) {
     return http.get(`/project-service/project/ongoing/${id1}/${id2}`);
   }
+
+  // get employee junior upcoming project
+  getJuniorUpcomingProject(id1, id2) {
+    return http.get(`/project-service/project/upcoming/${id1}/${id2}`);
+  }
 }
 
 export default new ProjectAPI();

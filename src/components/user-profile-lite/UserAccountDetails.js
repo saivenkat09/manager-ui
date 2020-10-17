@@ -21,14 +21,16 @@ class UserAccountDetails extends Component {
     this.onChangeSecondarySkill = this.onChangeSecondarySkill.bind(this);
     this.updateClicked = this.updateClicked.bind(this);
     this.updateDetails = this.updateDetails.bind(this);
+    this.checkAccess = this.checkAccess.bind(this);
+    this.cancelUpdate = this.cancelUpdate.bind(this);
 
     this.state = {
       employee: null,
-      skills: null,
       updateClicked: false,
       primarySkill: "",
       secondarySkill: "",
       businessTitle: "",
+      access: null,
     };
   }
 
@@ -53,14 +55,58 @@ class UserAccountDetails extends Component {
   componentDidMount() {
     const param = !!localStorage.getItem("oup")
       ? JSON.parse(localStorage.getItem("otherUserProfile")).id
-      : JSON.parse(localStorage.getItem("userId"));
+      : JSON.parse(localStorage.getItem("userIdAndName")).id;
+
+    if (!!localStorage.getItem("oup")) {
+      this.checkAccess();
+    } else {
+      this.setState({
+        access: 1,
+      });
+    }
+
+    this.retrieveEmployee(param);
+  }
+
+  componentDidUpdate() {
+    const param = !!localStorage.getItem("oup")
+      ? JSON.parse(localStorage.getItem("otherUserProfile")).id
+      : JSON.parse(localStorage.getItem("userIdAndName")).id;
+
     this.retrieveEmployee(param);
   }
 
   updateClicked() {
     this.setState({
       updateClicked: true,
+      primarySkill: this.state.primarySkill,
+      secondarySkill: this.state.secondarySkill,
+      businessTitle: this.state.businessTitle,
     });
+  }
+
+  cancelUpdate() {
+    this.setState({
+      updateClicked: false,
+    });
+  }
+
+  checkAccess() {
+    EmployeeAPI.getAccess(
+      JSON.parse(localStorage.getItem("userIdAndName")).id,
+      JSON.parse(localStorage.getItem("otherUserProfile")).id
+    )
+      .then((response) => {
+        this.setState({
+          access: response.data,
+        });
+        console.log(this.state.access);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    console.log(JSON.parse(localStorage.getItem("otherUserProfile")).id);
+    console.log(JSON.parse(localStorage.getItem("userIdAndName")).id);
   }
 
   updateDetails() {
@@ -70,22 +116,24 @@ class UserAccountDetails extends Component {
       businessTitle: this.state.businessTitle,
     };
 
-    const id = !!localStorage.getItem("oup")
-      ? JSON.parse(localStorage.getItem("otherUserProfile")).id
-      : JSON.parse(localStorage.getItem("userId"));
+    const id =
+      !!localStorage.getItem("oup") && this.state.access
+        ? JSON.parse(localStorage.getItem("otherUserProfile")).id
+        : JSON.parse(localStorage.getItem("userIdAndName")).id;
 
     EmployeeAPI.updateEmployeeSkills(id, data)
       .then((response) => {
-        this.setState({
-          Resources: response.data,
-          updateClicked: false,
-        });
+        this.setState({});
       })
       .catch((e) => {
         if (e.response) {
           console.log(e.response);
         }
       });
+
+    this.setState({
+      updateClicked: false,
+    });
   }
 
   retrieveEmployee(id) {
@@ -101,7 +149,7 @@ class UserAccountDetails extends Component {
   }
 
   render() {
-    const { employee, updateClicked } = this.state;
+    const { employee, updateClicked, access } = this.state;
 
     return (
       <div className="col-md-12">
@@ -148,7 +196,7 @@ class UserAccountDetails extends Component {
               <Col md="6" className="form-group">
                 <label htmlFor="managerId">Manager Id</label>
                 <FormInput
-                  id="emaimanagerIdl"
+                  id="managerId"
                   placeholder="Manager Id"
                   value={employee.managerId}
                   onChange={() => {}}
@@ -158,28 +206,46 @@ class UserAccountDetails extends Component {
               <Col md="6" className="form-group">
                 <label htmlFor="businessTitle">Business Title</label>
                 <FormInput
+                  type="text"
                   id="businessTitle"
                   placeholder="Business Title"
-                  value={employee.businessTitle}
+                  value={
+                    updateClicked
+                      ? this.state.businessTitle
+                      : employee.businessTitle
+                  }
                   onChange={this.onChangeBusinessTitle}
+                  disabled={updateClicked ? null : "disabled"}
                 />
               </Col>
               <Col md="6" className="form-group">
                 <label htmlFor="primarySkill">Primary Skill</label>
                 <FormInput
+                  type="text"
                   id="primarySkill"
                   placeholder="Primary Skill"
-                  value={employee.primarySkill}
+                  value={
+                    updateClicked
+                      ? this.state.primarySkill
+                      : employee.primarySkill
+                  }
                   onChange={this.onChangePrimarySkill}
+                  disabled={updateClicked ? null : "disabled"}
                 />
               </Col>
               <Col md="6" className="form-group">
                 <label htmlFor="secondarySkill">Secondary Skill</label>
                 <FormInput
+                  type="text"
                   id="secondarySkill"
                   placeholder="Secondary Skill"
-                  value={employee.secondarySkill}
+                  value={
+                    updateClicked
+                      ? this.state.secondarySkill
+                      : employee.secondarySkill
+                  }
                   onChange={this.onChangeSecondarySkill}
+                  disabled={updateClicked ? null : "disabled"}
                 />
               </Col>
               <Col md="6" className="form-group">
@@ -206,23 +272,35 @@ class UserAccountDetails extends Component {
           ) : (
             <div></div>
           )}
-          <CardFooter>
-            {updateClicked ? (
-              <button
-                onClick={this.updateDetails}
-                className="btn btn-primary float-right"
-              >
-                Save
-              </button>
-            ) : (
-              <button
-                onClick={this.updateClicked}
-                className="btn btn-info float-right"
-              >
-                Update
-              </button>
-            )}
-          </CardFooter>
+          {access ? (
+            <CardFooter>
+              {updateClicked ? (
+                <div className="float-right">
+                  <button
+                    onClick={this.updateDetails}
+                    className="btn btn-outline-primary mr-3"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={this.cancelUpdate}
+                    className="btn btn-outline-danger"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={this.updateClicked}
+                  className="btn btn-outline-info float-right"
+                >
+                  Update
+                </button>
+              )}
+            </CardFooter>
+          ) : (
+            <div></div>
+          )}
         </Card>
       </div>
     );

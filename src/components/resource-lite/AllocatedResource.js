@@ -25,7 +25,7 @@ class AllocatedResource extends Component {
 
   retrieveResources() {
     EmployeeAPI.getDescendentResources(
-      JSON.parse(localStorage.getItem("userId"))
+      JSON.parse(localStorage.getItem("userIdAndName")).id
     )
       .then((response) => {
         this.setState({
@@ -106,8 +106,8 @@ class AllocatedResource extends Component {
                         <strong>---Resources Allocated---</strong>
                       </label>
                     </div>
-                    {currentResource.allResources &&
-                      currentResource.allResources.map((item, idx) => {
+                    {currentResource.employeeList &&
+                      currentResource.employeeList.map((item, idx) => {
                         return (
                           <div key={idx}>
                             <div>

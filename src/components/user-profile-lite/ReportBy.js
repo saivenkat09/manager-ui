@@ -24,7 +24,7 @@ class ReportBy extends Component {
 
   retrieveJuniors() {
     EmployeeAPI.getJuniorsOfEmployee(
-        JSON.parse(localStorage.getItem("userId"))
+      JSON.parse(localStorage.getItem("userIdAndName")).id
     )
       .then((response) => {
         this.setState({
@@ -38,14 +38,22 @@ class ReportBy extends Component {
   }
 
   otherUserProfile(list) {
-    localStorage.setItem("otherUserProfile", JSON.stringify(list));
-    localStorage.setItem("oup", true);
-    //console.log(localStorage);
+    const { history } = this.props;
+
+    if (list.id == JSON.parse(localStorage.getItem("userIdAndName")).id) {
+      // history.push("/profile");
+      window.location.href = "/profile";
+    } else {
+      localStorage.setItem("otherUserProfile", JSON.stringify(list));
+      localStorage.setItem("oup", true);
+      // history.push("/employee/profile");
+      window.location.href = "/employee/profile";
+    }
   }
 
   render() {
     const { juniorsList } = this.state;
-    // const temp = require("./ReportTo.json");
+    //const temp = require("./ReportTo.json");
     return (
       <div className="col-md-12">
         <div>
@@ -70,13 +78,11 @@ class ReportBy extends Component {
                   {/* Content */}
                   <div>
                     {/* Content :: Title */}
-                    <div
-                      className=" text-mutes"
-                      onClick={() => this.otherUserProfile(list)}
-                    >
+                    <div className=" text-mutes">
                       <a
                         className="text-secondary  stretched-link"
-                        href="/employee/profile"
+                        href="#"
+                        onClick={() => this.otherUserProfile(list)}
                       >
                         {list.name}
                       </a>{" "}
