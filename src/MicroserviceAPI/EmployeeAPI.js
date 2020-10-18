@@ -91,8 +91,8 @@ class EmployeeAPI {
   }
 
   // update employee skills
-  updateEmployeeSkills(id, data) {
-    return http.put(`/employee-service/employee/${id}/skills`, data);
+  updateEmployeeSkills(id1, id2, data) {
+    return http.put(`/employee-service/employee/${id1}/info-of/${id2}`, data);
   }
 
   // get acces to update skills
@@ -111,6 +111,33 @@ class EmployeeAPI {
   // update work ex
   updateWorkEx(id, data) {
     return http.post(`/employee-service/employee/${id}/profile/workex`, data);
+  }
+
+  // get all notifications
+  getAllNotifications(id) {
+    return http.get(`/employee-service/employee/${id}/notifications`);
+  }
+
+  updateNotificationStatus(id) {
+    return http.put(`/employee-service/employee/${id}/notifications/status`);
+  }
+
+  noOfUnread(id) {
+    return http.get(
+      `/employee-service/employee/${id}/notifications/unread/count`
+    );
+  }
+
+  updateNotification(id) {
+    return http.put(`/employee-service//employee/${id}/notifications`);
+  }
+
+  getSelfResources(id) {
+    return http.get("/employee-service/employee/" + id + "/resource");
+  }
+
+  getEmployeeImageCheck(id) {
+    return http.get("/employee-service/image/" + id + "/check");
   }
 }
 

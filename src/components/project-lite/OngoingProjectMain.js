@@ -61,7 +61,8 @@ class OngoingProjectMain extends Component {
         <div className="list row">
           <div className="col-md-6">
             <ul className="list-group">
-              {Projects &&
+              {typeof Projects !== "string" &&
+                Projects &&
                 Projects.map((Project, index) => (
                   <li
                     className={

@@ -158,6 +158,7 @@ class UserWorkEx extends Component {
                 <FormInput
                   id="position"
                   placeholder="Position"
+                  required
                   value={this.state.position}
                   onChange={this.onChangePosition}
                 />
@@ -168,6 +169,7 @@ class UserWorkEx extends Component {
                 <FormInput
                   id="companyName"
                   placeholder="Company Name"
+                  required
                   value={this.state.companyName}
                   onChange={this.onChangeCompany}
                 />

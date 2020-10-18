@@ -52,7 +52,11 @@ class UserActions extends React.Component {
             src={require("./../../../../images/avatars/user.jpg")}
             alt="User"
           />{" "}
-          <span className="d-none d-md-inline-block">User</span>
+          <span className="d-none d-md-inline-block">
+            {JSON.parse(localStorage.getItem("userIdAndName")).name
+              ? JSON.parse(localStorage.getItem("userIdAndName")).name
+              : "Admin"}{" "}
+          </span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
           <DropdownItem tag={Link} to="edit-user-profile">

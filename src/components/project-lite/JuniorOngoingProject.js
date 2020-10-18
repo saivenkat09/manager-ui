@@ -45,6 +45,7 @@ class JuniorOngoingProject extends Component {
       .catch((e) => {
         console.log(e);
       });
+    console.log(this.state.Projects);
   }
 
   refreshList() {
@@ -72,6 +73,7 @@ class JuniorOngoingProject extends Component {
                 className="form-control"
                 id="employeeId"
                 type="text"
+                placeholder="Employee Id"
                 required
                 value={this.state.employeeId}
                 onChange={this.onChangeEmployeeId}
@@ -80,7 +82,7 @@ class JuniorOngoingProject extends Component {
               <div className="mt-3 mb-3">
                 <button
                   onClick={this.getDetails}
-                  className=" inline btn btn-success"
+                  className=" inline btn btn-outline-success"
                 >
                   Get Details
                 </button>
@@ -90,7 +92,8 @@ class JuniorOngoingProject extends Component {
 
           <div className="col-md-6">
             <Card className=" text-center border border-primary">
-              {Projects &&
+              {typeof Projects !== "string" &&
+                Projects &&
                 Projects.map((Project, idx) => (
                   <div key={idx}>
                     <CardHeader className="border-bottom">

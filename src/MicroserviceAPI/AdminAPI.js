@@ -2,15 +2,15 @@ import http from "../Http/common-http";
 
 class AdminAPI {
   getAll() {
-    return http.get("/admin-service/employees");
+    return http.get(`/admin-service/admin/employees`);
   }
 
   get(id) {
-    return http.get("/admin-service/employee/" + id);
+    return http.get(`/admin-service/employee/${id}`);
   }
 
   create(data) {
-    return http.post("/admin-service/employees", data);
+    return http.post(`/admin-service/admin/employee`, data);
   }
 
   delete(id) {

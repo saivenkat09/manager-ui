@@ -20,6 +20,10 @@ class AdminAPI {
   findByName() {
     return http.get("/resource-service/resource/");
   }
+
+  update(data) {
+    return http.put("/resource-service/resources", data);
+  }
 }
 
 export default new AdminAPI();

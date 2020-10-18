@@ -54,6 +54,7 @@ class UserEducationDetails extends Component {
         otherUser: true,
       });
     }
+    console.log(param);
     this.retrieveEmployee(param);
   }
 
@@ -160,6 +161,7 @@ class UserEducationDetails extends Component {
                 <FormInput
                   id="degree"
                   placeholder="Degree"
+                  required
                   value={this.state.degree}
                   onChange={this.onChangeDegree}
                 />
@@ -170,6 +172,7 @@ class UserEducationDetails extends Component {
                 <FormInput
                   id="university"
                   placeholder="University"
+                  required
                   value={this.state.college}
                   onChange={this.onChangeCollege}
                 />

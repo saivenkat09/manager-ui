@@ -18,33 +18,45 @@ const Project = () => (
     <Row noGutters className="page-header py-4">
       <PageTitle md="12" title="Project" className="text-sm-left" />
     </Row>
-    <Row style={{ padding: "5%" }}>
-      <AllProject />
-    </Row>
-    <Row style={{ padding: "5%" }}>
-      <OngoingProjectMain />
-    </Row>
-    {/* <Row style={{ padding: "5%" }}>
-      <UpcomingProjectMain />
-    </Row> */}
-    <Row style={{ padding: "5%" }}>
-      <JuniorOngoingProject />
-    </Row>
-    <Row style={{ padding: "5%" }}>
-      <JuniorUpcomingProject />
-    </Row>
-    <Row style={{ padding: "5%" }}>
-      <AssignProject />
-    </Row>
-    <Row style={{ padding: "5%" }}>
-      <UnAssignProject />
-    </Row>
-    <Row style={{ padding: "5%" }}>
-      <AddProject />
-    </Row>
-    <Row style={{ padding: "5%" }}>
-      <PastProject />
-    </Row>
+    {JSON.parse(localStorage.getItem("userIdAndName")).role === "ADMIN" ? (
+      <div>
+        <Row style={{ padding: "5%" }}>
+          <AllProject />
+        </Row>
+      </div>
+    ) : (
+      <Row></Row>
+    )}
+    {JSON.parse(localStorage.getItem("userIdAndName")).role === "EMPLOYEE" ? (
+      <div>
+        <Row style={{ padding: "5%" }}>
+          <OngoingProjectMain />
+        </Row>
+        <Row style={{ padding: "5%" }}>
+          <UpcomingProjectMain />
+        </Row>
+        <Row style={{ padding: "5%" }}>
+          <JuniorOngoingProject />
+        </Row>
+        <Row style={{ padding: "5%" }}>
+          <JuniorUpcomingProject />
+        </Row>
+        <Row style={{ padding: "5%" }}>
+          <PastProject />
+        </Row>
+        <Row style={{ padding: "5%" }}>
+          <AssignProject />
+        </Row>
+        <Row style={{ padding: "5%" }}>
+          <UnAssignProject />
+        </Row>
+        <Row style={{ padding: "5%" }}>
+          <AddProject />
+        </Row>
+      </div>
+    ) : (
+      <Row></Row>
+    )}
   </Container>
 );
 

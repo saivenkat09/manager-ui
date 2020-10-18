@@ -38,20 +38,9 @@ class Login extends Component {
     };
   }
 
-  // storeUserIdAndName(email) {
-  //   EmployeeAPI.getEmployeeIdAndNameByEmail(email)
-  //     .then((response) => {
-  //       localStorage.setItem("userIdAndName", JSON.stringify(response.data));
-  //       //console.log(JSON.parse(localStorage.getItem("userIdAndName")).name);
-  //       console.log(localStorage);
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // }
-
-  getAuthService() {
-    var data = { emailId: "ananya@ea.com", password: "password2" };
+  getAuthService(emailId, password) {
+    var data = { emailId, password };
+    console.log(JSON.stringify(data));
 
     axios
       .post(
@@ -66,12 +55,26 @@ class Login extends Component {
       .catch((e) => {
         console.log(e);
       });
+
+    this.notificationUpdate();
+  }
+
+  notificationUpdate() {
+    EmployeeAPI.updateNotification(
+      JSON.parse(localStorage.getItem("userIdAndName")).id
+    )
+      .then((response) => {
+        console.log("called");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { email } = this.state;
+    const { email, password } = this.state;
     const { history } = this.props;
 
     this.setState({ error: false });
@@ -79,7 +82,7 @@ class Login extends Component {
     // const data = { id: "10004", name: "IPL", role: "EMPLOYEE" };
     // localStorage.setItem("userIdAndName", JSON.stringify(data));
 
-    this.getAuthService();
+    this.getAuthService(email, password);
 
     // this.storeUserIdAndName(email);
     localStorage.setItem("loggedIn", true);
@@ -105,7 +108,7 @@ class Login extends Component {
         break;
       case "password":
         formErrors.password =
-          value.length < 6 ? "minimum 6 characaters required" : "";
+          value.length < 5 ? "minimum 5 characaters required" : "";
         break;
       default:
     }

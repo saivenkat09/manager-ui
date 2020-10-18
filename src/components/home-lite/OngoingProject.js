@@ -5,7 +5,6 @@ import ProjectAPI from "../../MicroserviceAPI/ProjectAPI";
 
 class OngoingProject extends Component {
   constructor(props) {
-    console.log(props);
     super(props);
 
     this.retrieveProject = this.retrieveProject.bind(this);
@@ -27,7 +26,6 @@ class OngoingProject extends Component {
         this.setState({
           projectList: response.data,
         });
-        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -43,33 +41,35 @@ class OngoingProject extends Component {
           <CardHeader className="border-bottom">
             <h5 className="m-0">Ongoing Projects</h5>
           </CardHeader>
-          {projectList.map((item, idx) => {
-            return (
-              <Form key={idx} style={{ padding: "0%" }}>
-                <Col md="6" className="form-group">
-                  <label htmlFor="projectName">Project Name</label>
-                  <FormInput
-                    id="projectName"
-                    placeholder="projectName"
-                    value={item.projectName}
-                    onChange={() => {}}
-                    disabled="disabled"
-                  />
-                </Col>
+          {typeof projectList !== "string" &&
+            projectList &&
+            projectList.map((item, idx) => {
+              return (
+                <Form key={idx} style={{ padding: "0%" }}>
+                  <Col md="6" className="form-group">
+                    <label htmlFor="projectId">Project Id</label>
+                    <FormInput
+                      id="projectId"
+                      placeholder="Project Id"
+                      value={item.projectId}
+                      onChange={() => {}}
+                      disabled="disabled"
+                    />
+                  </Col>
 
-                <Col md="6" className="form-group">
-                  <label htmlFor="description">Description</label>
-                  <FormInput
-                    id="description"
-                    placeholder="description"
-                    value={item.description}
-                    onChange={() => {}}
-                    disabled="disabled"
-                  />
-                </Col>
-              </Form>
-            );
-          })}
+                  <Col md="6" className="form-group">
+                    <label htmlFor="description">Description</label>
+                    <FormInput
+                      id="description"
+                      placeholder="description"
+                      value={item.description}
+                      onChange={() => {}}
+                      disabled="disabled"
+                    />
+                  </Col>
+                </Form>
+              );
+            })}
         </Card>
       </div>
     );

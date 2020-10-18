@@ -50,6 +50,11 @@ class ProjectAPI {
   getJuniorUpcomingProject(id1, id2) {
     return http.get(`/project-service/project/upcoming/${id1}/${id2}`);
   }
+
+  // close project
+  closeProject(selfId, projectId) {
+    return http.get(`/project/close/${selfId}/${projectId}`);
+  }
 }
 
 export default new ProjectAPI();

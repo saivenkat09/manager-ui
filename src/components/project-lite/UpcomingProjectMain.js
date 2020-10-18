@@ -57,11 +57,12 @@ class UpcomingProjectMain extends Component {
 
     return (
       <div className="col-md-12">
-        <h4>Your Ongoing Projects</h4>
+        <h4>Your Upcoming Projects</h4>
         <div className="list row">
           <div className="col-md-6">
             <ul className="list-group">
-              {Projects &&
+              {typeof Projects !== "string" &&
+                Projects &&
                 Projects.map((Project, index) => (
                   <li
                     className={
@@ -80,7 +81,7 @@ class UpcomingProjectMain extends Component {
 
           <div className="col-md-6">
             <Card className=" text-center border border-primary">
-              {currentProject ? (
+              {typeof currentProject !== "string" && currentProject ? (
                 <div>
                   <CardHeader className="border-bottom">
                     <h5 className="m-0">

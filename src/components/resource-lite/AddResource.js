@@ -8,7 +8,6 @@ class AddResource extends Component {
     this.onChangeId = this.onChangeId.bind(this);
     this.onChangeType = this.onChangeType.bind(this);
     this.onChangeTotalQuantity = this.onChangeTotalQuantity.bind(this);
-    this.onChangeRemainingQuantity = this.onChangeRemainingQuantity.bind(this);
 
     this.saveResource = this.saveResource.bind(this);
     this.newResource = this.newResource.bind(this);
@@ -18,7 +17,7 @@ class AddResource extends Component {
       name: "",
       type: "",
       totalQuantity: "",
-      remainingQuantity: "",
+
       submitted: false,
     };
   }
@@ -47,19 +46,12 @@ class AddResource extends Component {
     });
   }
 
-  onChangeRemainingQuantity(e) {
-    this.setState({
-      remainingQuantity: e.target.value,
-    });
-  }
-
   saveResource() {
     var data = {
       name: this.state.name,
       id: this.state.id,
       type: this.state.type,
       totalQuantity: this.state.totalQuantity,
-      remainingQuantity: this.state.remainingQuantity,
     };
 
     ResourceAPI.create(data)
@@ -69,7 +61,6 @@ class AddResource extends Component {
           id: response.data.id,
           type: response.data.type,
           totalQuantity: response.data.totalQuantity,
-          remainingQuantity: response.data.remainingQuantity,
 
           submitted: true,
         });
@@ -86,7 +77,7 @@ class AddResource extends Component {
       name: "",
       type: "",
       totalQuantity: "",
-      remainingQuantity: "",
+
       submitted: false,
     });
   }
@@ -99,7 +90,7 @@ class AddResource extends Component {
           {this.state.submitted ? (
             <div>
               <h4>You Submitted Successfully!</h4>
-              <button className="btn btn-success" onClick={this.newEmployee}>
+              <button className="btn btn-success" onClick={this.newResource}>
                 Add Again
               </button>
             </div>
@@ -162,21 +153,6 @@ class AddResource extends Component {
                   value={this.state.totalQuantity}
                   onChange={this.onChangeTotalQuantity}
                   name="totalQuantity"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="remainingQuantity">
-                  <strong>Remaining Quantity</strong>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="remainingQuantity"
-                  required
-                  value={this.state.remainingQuantity}
-                  onChange={this.onChangeRemainingQuantity}
-                  name="remainingQuantity"
                 />
               </div>
 

@@ -20,23 +20,26 @@ const Profile = () => (
     <Row>
       <UserDetails />
     </Row>
-    <Row>
-      <UserAccountDetails />
-    </Row>
+    {JSON.parse(localStorage.getItem("userIdAndName")).role !== "ADMIN" ? (
+      <div>
+        <Row>
+          <UserAccountDetails />
+        </Row>
 
-    <Row>
-      <UserEducationDetails />
-    </Row>
-    <Row>
-      <UserWorkEx />
-    </Row>
-    {/* {JSON.parse(localStorage.getItem("userIdAndName")).role !== "ADMIN" ? ( */}
-    <Row>
-      <ReportTo />
-    </Row>
-    {/* ) : (
+        <Row>
+          <UserEducationDetails />
+        </Row>
+        <Row>
+          <UserWorkEx />
+        </Row>
+
+        <Row>
+          <ReportTo />
+        </Row>
+      </div>
+    ) : (
       <Row></Row>
-    )} */}
+    )}
   </Container>
 );
 

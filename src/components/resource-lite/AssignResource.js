@@ -22,7 +22,7 @@ class AssignResource extends Component {
 
   onChangeResourceId(e) {
     this.setState({
-      id: e.target.value,
+      resourceId: e.target.value,
     });
   }
 

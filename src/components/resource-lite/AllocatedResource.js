@@ -31,7 +31,6 @@ class AllocatedResource extends Component {
         this.setState({
           Resources: response.data,
         });
-        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -100,19 +99,21 @@ class AllocatedResource extends Component {
                     </label>{" "}
                     {currentResource.employeeName}
                   </div>
+                  <hr />
                   <div>
                     <div>
-                      <label>
-                        <strong>---Resources Allocated---</strong>
-                      </label>
+                      <h5>
+                        <strong>Resources Allocated</strong>
+                      </h5>
                     </div>
-                    {currentResource.employeeList &&
-                      currentResource.employeeList.map((item, idx) => {
+                    <hr />
+                    {currentResource.allResources &&
+                      currentResource.allResources.map((item, idx) => {
                         return (
                           <div key={idx}>
                             <div>
                               <label>
-                                <strong>{idx + 1}</strong>
+                                <strong>({idx + 1})</strong>
                               </label>
                             </div>
                             <div>

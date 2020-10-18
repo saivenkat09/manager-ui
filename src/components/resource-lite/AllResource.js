@@ -24,6 +24,10 @@ class AllResource extends Component {
     this.retrieveResources();
   }
 
+  componentDidUpdate() {
+    this.retrieveResources();
+  }
+
   retrieveResources() {
     ResourceAPI.getAll()
       .then((response) => {
@@ -61,6 +65,11 @@ class AllResource extends Component {
       .catch((e) => {
         console.log(e);
       });
+
+    this.setState({
+      currentResource: null,
+      currentIndex: -1,
+    });
   }
 
   render() {

@@ -30,7 +30,6 @@ class ReportBy extends Component {
         this.setState({
           juniorsList: response.data,
         });
-        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -41,13 +40,13 @@ class ReportBy extends Component {
     const { history } = this.props;
 
     if (list.id == JSON.parse(localStorage.getItem("userIdAndName")).id) {
-      // history.push("/profile");
-      window.location.href = "/profile";
+      history.push("/profile");
+      //window.location.href = "/profile";
     } else {
       localStorage.setItem("otherUserProfile", JSON.stringify(list));
       localStorage.setItem("oup", true);
-      // history.push("/employee/profile");
-      window.location.href = "/employee/profile";
+      history.push("/employee/profile");
+      //window.location.href = "/employee/profile";
     }
   }
 

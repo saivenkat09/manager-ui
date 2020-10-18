@@ -15,16 +15,16 @@ class OtherUserProfile extends Component {
     this.goBack = this.goBack.bind(this);
   }
 
+  componentDidMount() {
+    localStorage.removeItem("otherUserProfile");
+    localStorage.removeItem("oup");
+  }
+
   goBack() {
     localStorage.removeItem("otherUserProfile");
     localStorage.removeItem("oup");
     console.log(localStorage);
     this.props.history.goBack();
-  }
-
-  componentWillUnmount() {
-    localStorage.removeItem("otherUserProfile");
-    localStorage.removeItem("oup");
   }
 
   render() {

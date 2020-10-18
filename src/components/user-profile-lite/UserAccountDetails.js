@@ -79,9 +79,9 @@ class UserAccountDetails extends Component {
   updateClicked() {
     this.setState({
       updateClicked: true,
-      primarySkill: this.state.primarySkill,
-      secondarySkill: this.state.secondarySkill,
-      businessTitle: this.state.businessTitle,
+      primarySkill: this.state.employee.primarySkill,
+      secondarySkill: this.state.employee.secondarySkill,
+      businessTitle: this.state.employee.businessTitle,
     });
   }
 
@@ -121,9 +121,17 @@ class UserAccountDetails extends Component {
         ? JSON.parse(localStorage.getItem("otherUserProfile")).id
         : JSON.parse(localStorage.getItem("userIdAndName")).id;
 
-    EmployeeAPI.updateEmployeeSkills(id, data)
+    EmployeeAPI.updateEmployeeSkills(
+      JSON.parse(localStorage.getItem("userIdAndName")).id,
+      id,
+      data
+    )
       .then((response) => {
-        this.setState({});
+        this.setState({
+          primarySkill: response.data.primarySkill,
+          secondarySkill: response.data.secondarySkill,
+          businessTitle: response.data.businessTitle,
+        });
       })
       .catch((e) => {
         if (e.response) {
@@ -160,13 +168,24 @@ class UserAccountDetails extends Component {
             </h5>
           </CardHeader>
           {employee ? (
-            <Form style={{ padding: "2%" }}>
+            <Form style={{ padding: "0%" }}>
               <Col md="6" className="form-group">
                 <label htmlFor="name">Name</label>
                 <FormInput
                   id="name"
                   placeholder="Name"
                   value={employee.name}
+                  onChange={() => {}}
+                  disabled="disabled"
+                />
+              </Col>
+
+              <Col md="6" className="form-group">
+                <label htmlFor="id">Employee Id</label>
+                <FormInput
+                  id="id"
+                  placeholder="Employee Id"
+                  value={employee.id}
                   onChange={() => {}}
                   disabled="disabled"
                 />

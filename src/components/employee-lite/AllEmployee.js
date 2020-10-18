@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import EmployeeAPI from "../../MicroserviceAPI/EmployeeAPI";
+import AdminAPI from "../../MicroserviceAPI/AdminAPI";
 import { Card, CardFooter, CardHeader } from "shards-react";
 
 class AllEmployee extends Component {
@@ -24,8 +24,12 @@ class AllEmployee extends Component {
     this.retrieveEmployees();
   }
 
+  componentDidUpdate() {
+    this.retrieveEmployees();
+  }
+
   retrieveEmployees() {
-    EmployeeAPI.getAll()
+    AdminAPI.getAll()
       .then((response) => {
         this.setState({
           Employees: response.data,
@@ -53,14 +57,19 @@ class AllEmployee extends Component {
   }
 
   deleteEmployee() {
-    EmployeeAPI.deleteEmployee(this.state.currentEmployee.id)
+    AdminAPI.delete(this.state.currentEmployee.id)
       .then((response) => {
         console.log(response.data);
-        this.props.history.push("/resource");
+        this.props.history.push("/employee");
       })
       .catch((e) => {
         console.log(e);
       });
+
+    this.setState({
+      currentEmployee: null,
+      currentIndex: -1,
+    });
   }
 
   render() {
@@ -100,33 +109,40 @@ class AllEmployee extends Component {
                   </CardHeader>
                   <div>
                     <label>
-                      <strong>Resource Id:</strong>
+                      <strong>Employee Id:</strong>
                     </label>{" "}
                     {currentEmployee.id}
                   </div>
                   <div>
                     <label>
-                      <strong>Resource Type:</strong>
+                      <strong>Employee Email:</strong>
                     </label>{" "}
-                    {currentEmployee.type}
+                    {currentEmployee.email}
                   </div>
+
                   <div>
                     <label>
-                      <strong>Name:</strong>
+                      <strong>Employee Name:</strong>
                     </label>{" "}
                     {currentEmployee.name}
                   </div>
                   <div>
                     <label>
-                      <strong>Total Quantity:</strong>
+                      <strong>Level:</strong>
                     </label>{" "}
-                    {currentEmployee.totalQuantity}
+                    {currentEmployee.level}
                   </div>
                   <div>
                     <label>
-                      <strong>Remaining Quantity:</strong>
+                      <strong>Manager Id:</strong>
                     </label>{" "}
-                    {currentEmployee.remainingQuantity}
+                    {currentEmployee.managerId}
+                  </div>
+                  <div>
+                    <label>
+                      <strong>Business Title:</strong>
+                    </label>{" "}
+                    {currentEmployee.businessTitle}
                   </div>
 
                   <CardFooter className="border-top">

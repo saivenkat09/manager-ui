@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ProjectAPI from "../../MicroserviceAPI/ProjectAPI";
-import EmployeeAPI from "../../MicroserviceAPI/EmployeeAPI";
+
 import { Card, CardFooter, CardHeader } from "shards-react";
 
 class AllProject extends Component {
@@ -11,7 +11,6 @@ class AllProject extends Component {
     this.retrieveProjects = this.retrieveProjects.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveProject = this.setActiveProject.bind(this);
-    this.closeProject = this.closeProject.bind(this);
 
     this.state = {
       Projects: [],
@@ -53,17 +52,6 @@ class AllProject extends Component {
     });
   }
 
-  closeProject() {
-    EmployeeAPI.closeProject(this.state.currentProject.id)
-      .then((response) => {
-        console.log(response.data);
-        this.props.history.push("/project");
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
   render() {
     const { Projects, currentProject, currentIndex } = this.state;
 
@@ -73,7 +61,8 @@ class AllProject extends Component {
         <div className="list row">
           <div className="col-md-6">
             <ul className="list-group">
-              {Projects &&
+              {typeof Projects !== "string" &&
+                Projects &&
                 Projects.map((Project, index) => (
                   <li
                     className={
@@ -135,19 +124,21 @@ class AllProject extends Component {
                     </label>{" "}
                     {currentProject.endDate}
                   </div>
+                  <hr />
                   <div>
                     <div>
-                      <label>
-                        <strong>---Assigned Employee List---</strong>
-                      </label>
+                      <h5>
+                        <strong>Assigned Employee List</strong>
+                      </h5>
                     </div>
-                    {currentProject.employeesAssigned &&
-                      currentProject.employeesAssigned.map((item, idx) => {
+                    <hr />
+                    {currentProject.employeeAssigned &&
+                      currentProject.employeeAssigned.map((item, idx) => {
                         return (
                           <div key={idx}>
                             <div>
                               <label>
-                                <strong>{idx + 1}</strong>
+                                <strong>({idx + 1})</strong>
                               </label>
                             </div>
                             <div>
@@ -180,12 +171,6 @@ class AllProject extends Component {
                   </div>
 
                   <CardFooter className="border-top">
-                    <button
-                      className="btn btn-danger mr-3"
-                      onClick={this.closeProject}
-                    >
-                      Close Project
-                    </button>
                     <a onClick={this.refreshList}>
                       <u>Hide</u>
                     </a>
