@@ -60,7 +60,11 @@ class AssignProject extends Component {
       hoursPerDay: this.state.hoursPerDay,
     };
 
-    ProjectAPI.assign(this.state.projectId, data)
+    ProjectAPI.assign(
+      JSON.parse(localStorage.getItem("userIdAndName")).id,
+      this.state.projectId,
+      data
+    )
       .then((response) => {
         this.setState({
           projectId: response.data.projectId,

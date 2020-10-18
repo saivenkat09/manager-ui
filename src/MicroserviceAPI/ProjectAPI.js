@@ -7,18 +7,21 @@ class ProjectAPI {
   }
 
   // project
-  assign(id, data) {
-    return http.post("/project-service/project/assign/" + id, data);
+  assign(id1, id2, data) {
+    return http.post(`/project-service/project/assign/${id1}/${id2}`, data);
   }
 
   // project
-  unassign(id, employeeid) {
-    return http.post("/project-service/" + id + "/unassign/" + employeeid);
+  unassign(id1, projectId, employeeid, data) {
+    return http.post(
+      `/project-service/project/unassign/${id1}/${projectId}/${employeeid}`,
+      data
+    );
   }
 
   // add project
   addProject(data) {
-    return http.post("/project-service/projects", data);
+    return http.post("/project-service/project", data);
   }
 
   // get employee ongoing project

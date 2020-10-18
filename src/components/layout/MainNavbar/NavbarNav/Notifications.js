@@ -126,7 +126,7 @@ export default class Notifications extends React.Component {
             <Modal show={show} onHide={this.handleClose} animation={false}>
               <Modal.Header
                 style={{
-                  backgroundColor: "purple",
+                  backgroundColor: "lightblue",
                 }}
               >
                 <Modal.Title>Notification</Modal.Title>
@@ -155,10 +155,10 @@ export default class Notifications extends React.Component {
               </Modal.Body>
               <Modal.Footer
                 style={{
-                  backgroundColor: "purple",
+                  backgroundColor: "lightblue",
                 }}
               >
-                <Button variant="outline-info" onClick={this.handleClose}>
+                <Button variant="outline-primary" onClick={this.handleClose}>
                   Close
                 </Button>
               </Modal.Footer>

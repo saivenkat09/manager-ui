@@ -92,7 +92,12 @@ class UserDetails extends Component {
             <span className="text-muted d-block mb-2">
               {employee.businessTitle}
             </span>
-            <UploadImage {...employee} />
+            {JSON.parse(localStorage.getItem("userIdAndName")).id ===
+            employee.id ? (
+              <UploadImage {...employee} />
+            ) : (
+              <div></div>
+            )}
           </Card>
         ) : (
           <div></div>

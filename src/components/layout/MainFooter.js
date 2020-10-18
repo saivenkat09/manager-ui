@@ -35,10 +35,17 @@ const MainFooter = () => (
               <h3 className="f-title f_600 t_color f_size_18">Download</h3>
               <ul className="list-unstyled f_list">
                 <li>
-                  <a href="#">Company</a>
+                  <a href="https://www.ea.com/en-gb" target="_blank">
+                    Company
+                  </a>
                 </li>
                 <li>
-                  <a href="#">Games</a>
+                  <a
+                    href="https://www.ea.com/en-gb/games/library/ps4"
+                    target="_blank"
+                  >
+                    Games
+                  </a>
                 </li>
                 <li>
                   <a href="#">FY Report</a>
@@ -100,10 +107,26 @@ const MainFooter = () => (
             >
               <h3 className="f-title f_600 t_color f_size_18">Social</h3>
               <div className="f_social_icon">
-                <a href="#" className="fab fa-facebook"></a>
-                <a href="#" className="fab fa-twitter"></a>
-                <a href="#" className="fab fa-linkedin"></a>
-                <a href="#" className="fab fa-pinterest"></a>
+                <a
+                  href="https://www.facebook.com/EA/"
+                  target="_blank"
+                  className="fab fa-facebook"
+                ></a>
+                <a
+                  href="https://twitter.com/ea"
+                  target="_blank"
+                  className="fab fa-twitter"
+                ></a>
+                <a
+                  href="https://www.linkedin.com/company/electronic-arts/mycompany/"
+                  target="_blank"
+                  className="fab fa-linkedin"
+                ></a>
+                <a
+                  href="https://www.pinterest.com/arcadiacr/electronic-arts-ea-sports/"
+                  target="_blank"
+                  className="fab fa-pinterest"
+                ></a>
               </div>
             </div>
           </div>

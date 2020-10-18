@@ -6,13 +6,14 @@ class UnAssignProject extends Component {
     super(props);
     this.onChangeProjectId = this.onChangeProjectId.bind(this);
     this.onChangeEmployeeId = this.onChangeEmployeeId.bind(this);
+    this.onChangeReview = this.onChangeReview.bind(this);
     this.saveRequest = this.saveRequest.bind(this);
     this.newRequest = this.newRequest.bind(this);
 
     this.state = {
       projectId: null,
       employeeId: null,
-
+      review: "",
       submitted: false,
     };
   }
@@ -29,12 +30,27 @@ class UnAssignProject extends Component {
     });
   }
 
+  onChangeReview(e) {
+    this.setState({
+      review: e.target.value,
+    });
+  }
+
   saveRequest() {
-    ProjectAPI.unassign(this.state.projectId, this.state.employeeId)
+    var data = {
+      review: this.state.review,
+    };
+    ProjectAPI.unassign(
+      JSON.parse(localStorage.getItem("userIdAndName")).id,
+      this.state.projectId,
+      this.state.employeeId,
+      data
+    )
       .then((response) => {
         this.setState({
           projectId: response.data.projectId,
           employeeId: response.data.employeeId,
+          review: response.data.review,
           submitted: true,
         });
         console.log(response.data);
@@ -48,6 +64,7 @@ class UnAssignProject extends Component {
     this.setState({
       projectId: null,
       employeeId: null,
+      review: "",
       submitted: false,
     });
   }
@@ -94,6 +111,21 @@ class UnAssignProject extends Component {
                   value={this.state.employeeId}
                   onChange={this.onChangeEmployeeId}
                   name="employeeId"
+                />
+              </div>
+
+              <div className="form-group ">
+                <label htmlFor="review">
+                  <strong>Review</strong>
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="review"
+                  required
+                  value={this.state.review}
+                  onChange={this.onChangeReview}
+                  name="review"
                 />
               </div>
 
